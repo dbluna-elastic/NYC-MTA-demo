@@ -25,6 +25,8 @@ Simulated streams always carry `labels.data_source: simulated` and `tags: SIMULA
 
 ## Quick start
 
+**New environment / another user:** follow **[SETUP.md](SETUP.md)** (clone → Spaces → API key → bootstrap → map → live ingest).
+
 ```bash
 cp .env.example .env   # set ES_URL, ES_API_KEY, KIBANA_URL
 python3 -m venv .venv && source .venv/bin/activate
@@ -47,6 +49,7 @@ python collector/collector.py
 # or: docker compose up --build mta-collector mta-simulator
 ```
 
+Presenter script: [elastic/docs/DEMO_SCRIPT.md](elastic/docs/DEMO_SCRIPT.md)
 ## Scenarios
 
 | # | Name | Data |
