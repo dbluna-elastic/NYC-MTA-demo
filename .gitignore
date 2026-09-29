@@ -1,0 +1,16 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.DS_Store
+collector/proto/*_pb2.py
+collector/proto/*_pb2.pyi
+samples/raw/
+samples/gtfs/*.zip
+geojson/subway/lines_opendata.geojson
+*.log
+.idea/
+.vscode/

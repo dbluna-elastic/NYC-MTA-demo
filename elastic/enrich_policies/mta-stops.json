@@ -1,0 +1,7 @@
+{
+  "match": {
+    "indices": "mta-stop-ref",
+    "match_field": "transit.stop_id",
+    "enrich_fields": ["station.name", "station.location", "station.ada", "station.borough", "geo.location"]
+  }
+}

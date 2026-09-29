@@ -1,0 +1,6 @@
+FROM logs-mta.vuln_finding-simulated
+| WHERE transit.status == "open" OR transit.vuln_overdue == true
+| EVAL sla_status = CASE(transit.vuln_overdue == true, "BREACH", "within_sla")
+| KEEP @timestamp, vulnerability.id, vulnerability.severity, host.name, transit.vuln_age_days, transit.vuln_sla_days, transit.vuln_days_overdue, sla_status, message
+| SORT vulnerability.severity ASC, transit.vuln_days_overdue DESC
+| LIMIT 100

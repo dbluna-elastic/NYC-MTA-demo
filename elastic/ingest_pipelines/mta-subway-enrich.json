@@ -1,0 +1,21 @@
+{
+  "description": "Enrich subway trips with station geo from stop_ref",
+  "processors": [
+    {
+      "enrich": {
+        "policy_name": "mta-stops",
+        "field": "transit.current_stop_id",
+        "target_field": "station",
+        "max_matches": 1,
+        "ignore_missing": true
+      }
+    },
+    {
+      "set": {
+        "field": "geo.location",
+        "copy_from": "station.location",
+        "ignore_empty_value": true
+      }
+    }
+  ]
+}

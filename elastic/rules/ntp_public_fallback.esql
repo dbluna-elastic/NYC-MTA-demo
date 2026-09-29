@@ -1,0 +1,7 @@
+// NATCA: public unauthenticated NTP is last resort — detect fallback, do not claim hard prohibition
+FROM logs-mta.idmz-simulated
+| WHERE @timestamp > NOW() - 24 hours
+| WHERE transit.ntp_fallback == true OR network.protocol == "ntp"
+| KEEP @timestamp, host.name, transit.ntp_source, transit.ntp_authenticated, message, transit.natca_function
+| SORT @timestamp DESC
+| LIMIT 100

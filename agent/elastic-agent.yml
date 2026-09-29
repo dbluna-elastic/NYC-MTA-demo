@@ -1,0 +1,34 @@
+# Standalone Elastic Agent acting as the Level 3.5 IDMZ concentrator.
+# Profile: docker compose --profile agent up
+#
+# CEF path (NATCA 22.1): simulator can write CEF lines under /var/log/mta-cef;
+# Agent filestream + CEF decoder ships to logs-cef.log-simulated.
+#
+# Replace outputs with your Cloud ID / API key via env interpolation in compose.
+
+outputs:
+  default:
+    type: elasticsearch
+    hosts: ["${ES_URL}"]
+    api_key: "${ES_API_KEY}"
+
+inputs:
+  - id: idmz-syslog-udp
+    type: logfile
+    data_stream:
+      namespace: mta
+      dataset: idmz
+    paths:
+      - /var/log/mta-cef/*.log
+    processors:
+      - decode_cef:
+          field: message
+          target_field: cef
+      - add_labels:
+          labels:
+            data_source: simulated
+            concentrator: idmz
+
+agent:
+  monitoring:
+    enabled: false

@@ -1,0 +1,12 @@
+// Step 1: list TI indicators
+// FROM logs-mta.threat_intel-simulated
+// | WHERE @timestamp > NOW() - 7 days
+// | KEEP threat.indicator.ip, threat.indicator.name, threat.indicator.provider
+//
+// Step 2: match remote access against known bad IP (demo IOC 198.51.100.99)
+FROM logs-mta.remote_access-simulated
+| WHERE @timestamp > NOW() - 24 hours
+| WHERE source.ip == "198.51.100.99"
+| KEEP @timestamp, user.name, source.ip, transit.vpn_allowlisted, transit.mfa_used, message
+| SORT @timestamp DESC
+| LIMIT 50

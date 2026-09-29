@@ -1,0 +1,6 @@
+FROM logs-mta.ot_asset-simulated
+| WHERE @timestamp > NOW() - 24 hours
+| WHERE transit.inventory_status == "unknown" OR tags == "UNKNOWN_ASSET"
+| KEEP @timestamp, asset.id, host.name, network.segment, message
+| SORT @timestamp DESC
+| LIMIT 100

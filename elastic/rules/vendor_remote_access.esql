@@ -1,0 +1,6 @@
+FROM logs-mta.remote_access-simulated
+| WHERE @timestamp > NOW() - 24 hours
+| WHERE transit.vpn_allowlisted == false OR transit.mfa_used == false OR transit.session_idle_seconds > 300
+| KEEP @timestamp, user.name, source.ip, transit.vpn_allowlisted, transit.mfa_used, transit.session_idle_seconds, message, transit.natca_function
+| SORT @timestamp DESC
+| LIMIT 100

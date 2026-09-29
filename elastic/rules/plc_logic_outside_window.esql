@@ -1,0 +1,8 @@
+FROM logs-mta.idmz-simulated
+| WHERE @timestamp > NOW() - 24 hours
+| WHERE event.type == "change"
+| WHERE transit.maintenance_window == false
+| WHERE host.name LIKE "PLC-*"
+| KEEP @timestamp, host.name, user.name, message, transit.natca_function, threat.technique.id
+| SORT @timestamp DESC
+| LIMIT 100

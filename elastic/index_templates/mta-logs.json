@@ -1,0 +1,174 @@
+{
+  "index_patterns": ["logs-mta.*"],
+  "data_stream": {},
+  "priority": 500,
+  "template": {
+    "settings": {
+      "index": {
+        "number_of_shards": 1,
+        "number_of_replicas": 1
+      }
+    },
+    "mappings": {
+      "properties": {
+        "@timestamp": { "type": "date" },
+        "event": {
+          "properties": {
+            "ingested": { "type": "date" },
+            "dataset": { "type": "keyword" },
+            "kind": { "type": "keyword" },
+            "category": { "type": "keyword" },
+            "type": { "type": "keyword" },
+            "severity": { "type": "long" },
+            "original": { "type": "wildcard" }
+          }
+        },
+        "labels": {
+          "properties": {
+            "data_source": { "type": "keyword" },
+            "feed_id": { "type": "keyword" },
+            "agency": { "type": "keyword" },
+            "demo": { "type": "keyword" }
+          }
+        },
+        "tags": { "type": "keyword" },
+        "message": { "type": "match_only_text" },
+        "host": {
+          "properties": {
+            "name": { "type": "keyword" },
+            "ip": { "type": "ip" },
+            "os": { "properties": { "family": { "type": "keyword" } } }
+          }
+        },
+        "user": {
+          "properties": {
+            "name": { "type": "keyword" },
+            "domain": { "type": "keyword" }
+          }
+        },
+        "source": {
+          "properties": {
+            "ip": { "type": "ip" },
+            "port": { "type": "long" }
+          }
+        },
+        "destination": {
+          "properties": {
+            "ip": { "type": "ip" },
+            "port": { "type": "long" }
+          }
+        },
+        "network": {
+          "properties": {
+            "protocol": { "type": "keyword" },
+            "transport": { "type": "keyword" },
+            "direction": { "type": "keyword" },
+            "segment": { "type": "keyword" },
+            "bytes": { "type": "long" }
+          }
+        },
+        "geo": {
+          "properties": {
+            "location": { "type": "geo_point" }
+          }
+        },
+        "station": {
+          "properties": {
+            "name": { "type": "keyword" },
+            "location": { "type": "geo_point" },
+            "ada": { "type": "keyword" },
+            "borough": { "type": "keyword" }
+          }
+        },
+        "equipment": {
+          "properties": {
+            "id": { "type": "keyword" }
+          }
+        },
+        "asset": {
+          "properties": {
+            "id": { "type": "keyword" },
+            "name": { "type": "keyword" }
+          }
+        },
+        "modbus": {
+          "properties": {
+            "function_code": { "type": "long" },
+            "function_name": { "type": "keyword" }
+          }
+        },
+        "vulnerability": {
+          "properties": {
+            "id": { "type": "keyword" },
+            "severity": { "type": "keyword" }
+          }
+        },
+        "threat": {
+          "properties": {
+            "framework": { "type": "keyword" },
+            "indicator": {
+              "properties": {
+                "ip": { "type": "ip" },
+                "type": { "type": "keyword" },
+                "name": { "type": "keyword" },
+                "provider": { "type": "keyword" }
+              }
+            },
+            "technique": {
+              "properties": {
+                "id": { "type": "keyword" },
+                "name": { "type": "keyword" }
+              }
+            }
+          }
+        },
+        "transit": {
+          "properties": {
+            "route_id": { "type": "keyword" },
+            "trip_id": { "type": "keyword" },
+            "train_id": { "type": "keyword" },
+            "direction": { "type": "keyword" },
+            "is_assigned": { "type": "boolean" },
+            "current_stop_id": { "type": "keyword" },
+            "next_stop_id": { "type": "keyword" },
+            "stop_id": { "type": "keyword" },
+            "stop_name": { "type": "keyword" },
+            "scheduled_track": { "type": "keyword" },
+            "actual_track": { "type": "keyword" },
+            "track_diverted": { "type": "boolean" },
+            "track": { "type": "keyword" },
+            "train_status": { "type": "keyword" },
+            "stop_update_count": { "type": "long" },
+            "alert_id": { "type": "keyword" },
+            "header": { "type": "text" },
+            "description": { "type": "text" },
+            "route_ids": { "type": "keyword" },
+            "stop_ids": { "type": "keyword" },
+            "station_name": { "type": "keyword" },
+            "borough": { "type": "keyword" },
+            "equipment_type": { "type": "keyword" },
+            "reason": { "type": "keyword" },
+            "ene_in_service": { "type": "byte" },
+            "natca_function": { "type": "keyword" },
+            "vuln_age_days": { "type": "long" },
+            "vuln_sla_days": { "type": "long" },
+            "vuln_overdue": { "type": "boolean" },
+            "vuln_days_overdue": { "type": "long" },
+            "vpn_allowlisted": { "type": "boolean" },
+            "mfa_used": { "type": "boolean" },
+            "session_idle_seconds": { "type": "long" },
+            "idle_limit_seconds": { "type": "long" },
+            "ntp_source": { "type": "keyword" },
+            "ntp_fallback": { "type": "boolean" },
+            "unknown_asset": { "type": "boolean" },
+            "inventory_status": { "type": "keyword" }
+          }
+        }
+      }
+    }
+  },
+  "_meta": {
+    "description": "MTA transit demo logs (real + simulated)",
+    "demo": "mta-observability"
+  }
+}

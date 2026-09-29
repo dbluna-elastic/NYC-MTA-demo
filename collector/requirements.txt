@@ -1,0 +1,6 @@
+protobuf>=5.28.0
+grpcio-tools>=1.66.0
+requests>=2.32.0
+PyYAML>=6.0.2
+elasticsearch>=8.15.0,<10
+python-dateutil>=2.9.0

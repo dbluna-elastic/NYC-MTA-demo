@@ -1,0 +1,31 @@
+{
+  "job_id": "mta-track-divergence-count",
+  "description": "High count anomaly on track_diverted subway events by route (Scenario 1). Requires continuous collector history.",
+  "groups": ["mta", "transit"],
+  "analysis_config": {
+    "bucket_span": "15m",
+    "detectors": [
+      {
+        "function": "high_count",
+        "by_field_name": "transit.route_id",
+        "detector_description": "high count of diverted trips by route"
+      }
+    ],
+    "influencers": ["transit.route_id", "labels.feed_id"]
+  },
+  "data_description": {
+    "time_field": "@timestamp",
+    "time_format": "epoch_ms"
+  },
+  "datafeed_config": {
+    "indices": ["logs-mta.subway_trip-*"],
+    "query": {
+      "bool": {
+        "filter": [
+          { "term": { "transit.track_diverted": true } },
+          { "term": { "labels.data_source": "real" } }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+FROM logs-mta.idmz-simulated
+| WHERE @timestamp > NOW() - 24 hours
+| WHERE transit.natca_function == "unplanned_shutdown"
+| KEEP @timestamp, host.name, message, transit.natca_function
+| SORT @timestamp DESC
+| LIMIT 100

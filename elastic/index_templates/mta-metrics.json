@@ -1,0 +1,72 @@
+{
+  "index_patterns": ["metrics-mta.*"],
+  "data_stream": {},
+  "priority": 500,
+  "template": {
+    "settings": {
+      "index": {
+        "number_of_shards": 1,
+        "number_of_replicas": 1
+      }
+    },
+    "mappings": {
+      "properties": {
+        "@timestamp": { "type": "date" },
+        "host": {
+          "properties": {
+            "name": { "type": "keyword" }
+          }
+        },
+        "labels": {
+          "properties": {
+            "data_source": { "type": "keyword" },
+            "agency": { "type": "keyword" },
+            "feed_id": { "type": "keyword" }
+          }
+        },
+        "tags": { "type": "keyword" },
+        "event": {
+          "properties": {
+            "dataset": { "type": "keyword" },
+            "ingested": { "type": "date" }
+          }
+        },
+        "equipment": {
+          "properties": {
+            "id": { "type": "keyword" }
+          }
+        },
+        "transit": {
+          "properties": {
+            "route_id": { "type": "keyword" },
+            "station_name": { "type": "keyword" },
+            "borough": { "type": "keyword" },
+            "equipment_type": { "type": "keyword" },
+            "reason": { "type": "keyword" },
+            "ene_in_service": { "type": "byte" },
+            "estimated_return": { "type": "keyword" },
+            "outage_date": { "type": "keyword" },
+            "lines": { "type": "keyword" },
+            "ada": { "type": "keyword" },
+            "serving": { "type": "keyword" }
+          }
+        },
+        "metrics": {
+          "properties": {
+            "ene.in_service": { "type": "byte" },
+            "ot.pump.sump_level_ft": { "type": "float" },
+            "ot.pump.runtime_hours": { "type": "float" },
+            "ot.dcs.rtt_ms": { "type": "float" },
+            "ot.dcs.handover_ms": { "type": "float" },
+            "ot.power.dc_bus_volts": { "type": "float" }
+          }
+        },
+        "message": { "type": "match_only_text" }
+      }
+    }
+  },
+  "_meta": {
+    "description": "MTA transit demo metrics (standard data streams for demo simplicity)",
+    "demo": "mta-observability"
+  }
+}

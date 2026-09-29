@@ -1,0 +1,45 @@
+services:
+  mta-collector:
+    build: ./collector
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - ./collector:/app
+      - ./samples:/samples
+    command: ["python", "collector.py"]
+
+  mta-refdata:
+    build: ./collector
+    env_file: .env
+    profiles: ["refdata"]
+    volumes:
+      - ./collector:/app
+    command: ["python", "refdata.py"]
+
+  mta-simulator:
+    build:
+      context: .
+      dockerfile: simulator/Dockerfile
+    env_file: .env
+    restart: unless-stopped
+    command: ["python", "simulator.py", "--interval", "60", "--attack-every", "5"]
+
+  mock-maximo:
+    build:
+      context: ./simulator
+      dockerfile: Dockerfile.maximo
+    ports:
+      - "8088:8088"
+    profiles: ["maximo"]
+
+  elastic-agent:
+    image: docker.elastic.co/elastic-agent/elastic-agent:9.5.3
+    user: root
+    profiles: ["agent"]
+    volumes:
+      - ./agent/elastic-agent.yml:/usr/share/elastic-agent/elastic-agent.yml:ro
+      - ./simulator/cef_out:/var/log/mta-cef:ro
+    environment:
+      - ES_URL=${ES_URL}
+      - ES_API_KEY=${ES_API_KEY}
+    restart: unless-stopped

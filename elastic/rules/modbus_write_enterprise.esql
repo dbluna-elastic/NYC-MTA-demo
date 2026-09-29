@@ -1,0 +1,8 @@
+FROM logs-mta.idmz-simulated
+| WHERE @timestamp > NOW() - 1 hour
+| WHERE labels.data_source == "simulated"
+| WHERE modbus.function_code IN (5, 6, 15, 16)
+| WHERE CIDR_MATCH(source.ip, "10.10.0.0/16", "10.0.0.0/8")
+| KEEP @timestamp, message, source.ip, destination.ip, modbus.function_code, transit.natca_function, threat.technique.id
+| SORT @timestamp DESC
+| LIMIT 100

@@ -1,0 +1,51 @@
+{
+  "index_patterns": ["logs-cef.log-simulated"],
+  "data_stream": {},
+  "priority": 510,
+  "template": {
+    "settings": {
+      "index": {
+        "number_of_shards": 1,
+        "number_of_replicas": 1
+      }
+    },
+    "mappings": {
+      "properties": {
+        "@timestamp": { "type": "date" },
+        "labels": {
+          "properties": {
+            "data_source": { "type": "keyword" },
+            "agency": { "type": "keyword" }
+          }
+        },
+        "tags": { "type": "keyword" },
+        "cef": {
+          "properties": {
+            "version": { "type": "keyword" },
+            "device_vendor": { "type": "keyword" },
+            "device_product": { "type": "keyword" },
+            "severity": { "type": "long" }
+          }
+        },
+        "source": { "properties": { "ip": { "type": "ip" } } },
+        "destination": {
+          "properties": {
+            "ip": { "type": "ip" },
+            "port": { "type": "long" }
+          }
+        },
+        "message": { "type": "match_only_text" },
+        "event": {
+          "properties": {
+            "original": { "type": "wildcard" },
+            "dataset": { "type": "keyword" }
+          }
+        }
+      }
+    }
+  },
+  "_meta": {
+    "description": "CEF ingest path for NATCA 22.1 Common Event Format",
+    "demo": "mta-observability"
+  }
+}

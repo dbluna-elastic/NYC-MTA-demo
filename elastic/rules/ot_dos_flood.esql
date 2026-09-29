@@ -1,0 +1,6 @@
+FROM logs-mta.idmz-simulated
+| WHERE @timestamp > NOW() - 1 hour
+| WHERE transit.natca_function == "denial_of_service" OR (network.protocol == "icmp" AND network.bytes > 1000000)
+| KEEP @timestamp, source.ip, destination.ip, network.bytes, message, transit.natca_function
+| SORT @timestamp DESC
+| LIMIT 100

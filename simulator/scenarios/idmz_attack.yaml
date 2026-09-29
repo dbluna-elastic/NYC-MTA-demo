@@ -1,0 +1,34 @@
+name: idmz_attack
+description: >
+  Replayable tabletop for Scenario 4A/4B. Emits Modbus write from enterprise,
+  PLC logic change outside maintenance, public NTP fallback, unknown asset,
+  vendor remote access violations, rogue AP, onboard HIDS, CEF event, and IOC.
+duration_minutes: 15
+steps:
+  - t_seconds: 0
+    action: modbus_write_enterprise
+  - t_seconds: 15
+    action: vendor_vpn_non_allowlist
+  - t_seconds: 30
+    action: plc_logic_change
+  - t_seconds: 45
+    action: unknown_asset
+  - t_seconds: 60
+    action: ntp_public_fallback
+  - t_seconds: 75
+    action: netconfig_no_ticket
+  - t_seconds: 90
+    action: dos_icmp_flood
+  - t_seconds: 100
+    action: rogue_ap
+  - t_seconds: 110
+    action: onboard_hids
+  - t_seconds: 120
+    action: unplanned_shutdown
+natca_functions_covered:
+  - unauthorized_system_intrusion
+  - unauthorized_modification
+  - denial_of_service
+  - unplanned_shutdown
+  - unexpected_remote_logon
+  - unauthorized_communication
